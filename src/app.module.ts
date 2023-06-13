@@ -4,9 +4,17 @@ import { UserModule } from './user/user.module';
 import { ConfigModule } from "@nestjs/config";
 import * as process from "process";
 import { User } from "./user/user.model";
+import { RoleController } from './role/role.controller';
+import { GroupController } from './group/group.controller';
+import { TokenController } from './token/token.controller';
+import { ScopeController } from './scope/scope.controller';
+import { ScopeModule } from './scope/scope.module';
+import { RoleModule } from './role/role.module';
+import { GroupModule } from './group/group.module';
+import { TokenModule } from './token/token.module';
 
 @Module({
-  controllers: [],
+  controllers: [RoleController, GroupController, TokenController, ScopeController],
   providers: [],
   imports: [
     ConfigModule.forRoot({
@@ -23,6 +31,10 @@ import { User } from "./user/user.model";
       autoLoadModels: true
     }),
     UserModule,
+    ScopeModule,
+    RoleModule,
+    GroupModule,
+    TokenModule,
   ],
 })
 export class AppModule {
