@@ -12,9 +12,11 @@ import { ScopeModule } from './scope/scope.module';
 import { RoleModule } from './role/role.module';
 import { GroupModule } from './group/group.module';
 import { TokenModule } from './token/token.module';
+import { ScopeAttributeModule } from './scope-attribute/scope-attribute.module';
+import { ScopeAttributeController } from "./scope-attribute/scope-attribute.controller";
 
 @Module({
-  controllers: [RoleController, GroupController, TokenController, ScopeController],
+  controllers: [RoleController, GroupController, TokenController, ScopeController, ScopeAttributeController],
   providers: [],
   imports: [
     ConfigModule.forRoot({
@@ -35,6 +37,7 @@ import { TokenModule } from './token/token.module';
     RoleModule,
     GroupModule,
     TokenModule,
+    ScopeAttributeModule,
   ],
 })
 export class AppModule {
