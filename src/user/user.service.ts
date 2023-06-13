@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 import { User } from "./user.model";
 import { CreateUserRequest } from "./requests/create-user.request";
+import { UpdateUserRequest } from "./requests/update-user.request";
 
 @Injectable()
 export class UserService {
@@ -35,6 +36,20 @@ export class UserService {
                 'username': username
             }
         });
+    }
+
+    async updateUser(user: User, updateUserRequest: UpdateUserRequest):Promise<boolean>
+    {
+        return await this.userRepository.update({
+            username: user.username,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            password: user.password,
+        }, {
+            where: {
+                'userId': user.userId
+            },
+        }).then(() => {return true}, () => {return false});
     }
 
     async deleteUserById(userId: number): Promise<boolean>

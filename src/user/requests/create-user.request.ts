@@ -9,4 +9,10 @@ export class CreateUserRequest {
 
   @ApiProperty({example: 'password', description: 'User password'})
   readonly password: string;
+
+  @ApiProperty({example: 'Michal', description: 'User firstname'})
+  readonly firstname: string;
+
+  @ApiProperty({example: 'Novak', description: 'User lastname'})
+  readonly lastname: string;
 }

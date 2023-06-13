@@ -5,13 +5,14 @@ import {
     Delete,
     Get, HttpCode,
     NotFoundException,
-    Param,
+    Param, Patch,
     Post
 } from "@nestjs/common";
 import { CreateUserRequest } from "./requests/create-user.request";
 import { User } from "./user.model";
 import { UserService } from "./user.service";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { UpdateUserRequest } from "./requests/update-user.request";
 
 @ApiTags('Users')
 @Controller('users')
@@ -43,6 +44,7 @@ export class UserController {
         return this.userService.getAllUsers();
     }
 
+    @ApiOperation({summary: 'Getting concrete user.'})
     @Get('/:userId')
     getUser(@Param('userId') userId: number): Promise<User|void>
     {
@@ -56,6 +58,33 @@ export class UserController {
         )
     }
 
+    @ApiOperation({summary: 'Updating concrete user.'})
+    @ApiResponse({ status: 204, description: 'The user was updated successfully.'})
+    @ApiResponse({ status: 404, description: 'The user can not be found.'})
+    @ApiResponse({ status: 409, description: 'The user can not be updated.'})
+    @Patch('/:userId')
+    @HttpCode(204)
+    async updateUser(@Param('userId') userId: number, @Body() updateUserRequest: UpdateUserRequest): Promise<User>
+    {
+        return this.userService.getUserById(userId)
+            .then((user) => {
+                if (user === null) {
+                    return Promise.reject();
+                }
+                return this.userService.updateUser(user, updateUserRequest);
+            })
+            .then((result) => {
+                if (result === false) {
+                    throw new ConflictException();
+                }
+                return null;
+            }, () => {throw new NotFoundException()});
+    }
+
+    @ApiOperation({summary: 'Deleting concrete user.'})
+    @ApiResponse({ status: 204, description: 'The user was deleted successfully.'})
+    @ApiResponse({ status: 404, description: 'The user can not be found.'})
+    @ApiResponse({ status: 409, description: 'The user can not be deleted.'})
     @Delete('/:userId')
     @HttpCode(204)
     async removeUser(@Param('userId') userId: number)
