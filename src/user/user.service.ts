@@ -7,8 +7,7 @@ import { UpdateUserRequest } from "./requests/update-user.request";
 @Injectable()
 export class UserService {
 
-    constructor(@InjectModel(User) private userRepository: typeof User) {
-    }
+    constructor(@InjectModel(User) private userRepository: typeof User) {}
 
     async createUser(createUserRequest: CreateUserRequest): Promise<User> {
         return this.getUserByUsername(createUserRequest.username)
