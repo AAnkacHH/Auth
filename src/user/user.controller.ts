@@ -9,7 +9,7 @@ import {
     Post
 } from "@nestjs/common";
 import { CreateUserRequest } from "./requests/create-user.request";
-import { User } from "./user.model";
+import { User } from "./models/user.model";
 import { UserService } from "./user.service";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { UpdateUserRequest } from "./requests/update-user.request";

@@ -3,7 +3,7 @@ import { SequelizeModule } from "@nestjs/sequelize";
 import { UserModule } from './user/user.module';
 import { ConfigModule } from "@nestjs/config";
 import * as process from "process";
-import { User } from "./user/user.model";
+import { User } from "./user/models/user.model";
 import { ScopeModule } from './scope/scope.module';
 import { RoleModule } from './role/role.module';
 import { GroupModule } from './group/group.module';
