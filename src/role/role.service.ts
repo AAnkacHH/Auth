@@ -15,11 +15,12 @@ export class RoleService {
         return this.roleRepository.findAll();
     }
 
-    findOne(id: number): Promise<Role> {
+    getRoleById(id: number): Promise<Role> {
         return this.roleRepository.findByPk(id);
     }
 
     async remove(id: number): Promise<void> {
+        // todo check if used
         await this.roleRepository.destroy({
             where: {
                 'roleId': id
@@ -36,10 +37,18 @@ export class RoleService {
     {
         role.name = updateRoleRequest.name || role.name;
         role.description = updateRoleRequest.description || role.description;
-        return this.roleRepository.update(role, {
+
+        console.log(role);
+        return this.roleRepository.update({
+            name: role.name,
+            description: role.description,
+        }, {
             where: {
                 'roleId': role.roleId
             },
-        }).then(() => true, () => false);
+        }).then((res) => {
+            console.log(res);
+            return true;
+        }, () => false);
     }
 }

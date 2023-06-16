@@ -3,6 +3,7 @@ import { InjectModel } from "@nestjs/sequelize";
 import { User } from "./user.model";
 import { CreateUserRequest } from "./requests/create-user.request";
 import { UpdateUserRequest } from "./requests/update-user.request";
+import { Role } from "../role/role.model";
 
 @Injectable()
 export class UserService {
@@ -60,5 +61,12 @@ export class UserService {
         });
 
         return res === 1;
+    }
+
+
+
+    assignRoleToUser(user: User, role: Role): void
+    {
+
     }
 }
