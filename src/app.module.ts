@@ -4,19 +4,15 @@ import { UserModule } from './user/user.module';
 import { ConfigModule } from "@nestjs/config";
 import * as process from "process";
 import { User } from "./user/user.model";
-import { RoleController } from './role/role.controller';
-import { GroupController } from './group/group.controller';
-import { TokenController } from './token/token.controller';
-import { ScopeController } from './scope/scope.controller';
 import { ScopeModule } from './scope/scope.module';
 import { RoleModule } from './role/role.module';
 import { GroupModule } from './group/group.module';
 import { TokenModule } from './token/token.module';
 import { ScopeAttributeModule } from './scope-attribute/scope-attribute.module';
-import { ScopeAttributeController } from "./scope-attribute/scope-attribute.controller";
+import { Role } from "./role/role.model";
 
 @Module({
-  controllers: [RoleController, GroupController, TokenController, ScopeController, ScopeAttributeController],
+  controllers: [],
   providers: [],
   imports: [
     ConfigModule.forRoot({
@@ -29,7 +25,7 @@ import { ScopeAttributeController } from "./scope-attribute/scope-attribute.cont
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      models: [User],
+      models: [User, Role],
       autoLoadModels: true
     }),
     UserModule,
