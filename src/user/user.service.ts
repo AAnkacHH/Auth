@@ -1,31 +1,35 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
-import { User } from "./user.model";
+import { User } from "./models/user.model";
 import { CreateUserRequest } from "./requests/create-user.request";
 import { UpdateUserRequest } from "./requests/update-user.request";
+import { Role } from "../role/role.model";
+import { RoleService } from "../role/role.service";
 
 @Injectable()
 export class UserService {
 
-    constructor(@InjectModel(User) private userRepository: typeof User) {}
+    constructor(
+        @InjectModel(User) private userRepository: typeof User,
+        private roleService: RoleService
+    ) {}
 
-    async createUser(createUserRequest: CreateUserRequest): Promise<User> {
-        return this.getUserByUsername(createUserRequest.username)
-            .then((user) => {
-                if (user !== null) {
-                    return Promise.reject(user)
-                }
-                return this.userRepository.create(createUserRequest);
-            });
+    async createUser(createUserRequest: CreateUserRequest): Promise<User>
+    {
+        let baseRole = await this.roleService.getRoleByName('USER');
+        let newUser = await this.userRepository.create(createUserRequest);
+        await newUser.$set("roles", [baseRole.roleId]);
+        return newUser;
     }
 
-    async getAllUsers() {
+    async getAllUsers()
+    {
         return await this.userRepository.findAll();
     }
 
     async getUserById(userId: number): Promise<User>
     {
-        return await this.userRepository.findByPk(userId);
+        return await this.userRepository.findByPk(userId, {include: {all: true}});
     }
 
     async getUserByUsername(username: string): Promise<User>
