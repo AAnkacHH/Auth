@@ -39,6 +39,7 @@ export class User extends Model<User, UserCreationAttrs> {
   @Column({type: DataType.STRING})
   password: string;
 
+  @ApiProperty({example: [], description: "User roles.", nullable: false})
   @BelongsToMany(() => Role, () => UserRole)
   roles: Role[];
 }
