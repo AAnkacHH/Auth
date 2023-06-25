@@ -13,27 +13,31 @@ import { User } from "./models/user.model";
 import { UserService } from "./user.service";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { UpdateUserRequest } from "./requests/update-user.request";
+import { AbstractController } from "../common/abstract.controller";
 
 @ApiTags('Users')
 @Controller('users')
-export class UserController {
+export class UserController extends AbstractController {
 
-    constructor(private userService: UserService) {}
+    constructor(private userService: UserService) {
+        super();
+    }
 
     @ApiOperation({summary: 'User creation.'})
     @ApiResponse({status: 201, type: User})
     @Post()
-    createUser(@Body() createUserRequest: CreateUserRequest): Promise<User>
+    async createUser(@Body() createUserRequest: CreateUserRequest): Promise<User>
     {
-        return this.userService.createUser(createUserRequest)
-            .then((user) => {return user}, (existingUser) => {
-                console.log(existingUser.id);
-                throw new ConflictException({
-                    'error': 'User with current username already exists.',
-                    'username': existingUser.username,
-                    'user_id': existingUser.userId,
-                });
+        let currUser = await this.userService.getUserByUsername(createUserRequest.username);
+        if (currUser !== null) {
+            this.sendConflict({
+                'error': 'User with current username already exists.',
+                'username': currUser.username,
+                'user_id': currUser.userId,
             });
+        }
+
+        return this.userService.createUser(createUserRequest);
     }
 
     @ApiOperation({summary: 'Getting all users.'})

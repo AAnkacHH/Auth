@@ -19,6 +19,10 @@ export class RoleService {
         return this.roleRepository.findByPk(id);
     }
 
+    getRoleByName(name: string): Promise<Role> {
+        return this.roleRepository.findOne({where: {name: name}});
+    }
+
     async remove(id: number): Promise<void> {
         // todo check if used
         await this.roleRepository.destroy({
