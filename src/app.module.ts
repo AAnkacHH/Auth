@@ -10,6 +10,7 @@ import { GroupModule } from './group/group.module';
 import { TokenModule } from './token/token.module';
 import { ScopeAttributeModule } from './scope-attribute/scope-attribute.module';
 import { Role } from "./role/role.model";
+import { UserRole } from "./user/models/user-role.model";
 
 @Module({
   controllers: [],
@@ -25,7 +26,7 @@ import { Role } from "./role/role.model";
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      models: [User, Role],
+      models: [User, Role, UserRole],
       autoLoadModels: true
     }),
     UserModule,

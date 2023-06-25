@@ -1,12 +1,14 @@
-import { Column, DataType, Model, Table } from "sequelize-typescript";
-import { ApiProperty } from "@nestjs/swagger";
+import { Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
+import { Role } from "../../role/role.model";
+import { User } from "./user.model";
 
-interface UserRoleCreationAttrs {
-    userId: number;
-    roleId: number;
-}
+@Table({tableName: "user_roles", createdAt: false, updatedAt: false})
+export class UserRole extends Model<UserRole> {
+    @ForeignKey(() => Role)
+    @Column({type: DataType.INTEGER, primaryKey: true})
+    roleId: number
 
-@Table({tableName: "user_roles"})
-export class UserRole extends Model<UserRole, UserRoleCreationAttrs> {
-    // todo
+    @ForeignKey(() => User)
+    @Column({type: DataType.INTEGER, primaryKey: true})
+    userId: number
 }
