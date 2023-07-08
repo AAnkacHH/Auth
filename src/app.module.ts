@@ -11,6 +11,8 @@ import { TokenModule } from './token/token.module';
 import { ScopeAttributeModule } from './scope-attribute/scope-attribute.module';
 import { Role } from "./role/role.model";
 import { UserRole } from "./user/models/user-role.model";
+import { PortalController } from './portal/portal.controller';
+import { PortalModule } from './portal/portal.module';
 
 @Module({
   controllers: [],
@@ -35,6 +37,7 @@ import { UserRole } from "./user/models/user-role.model";
     GroupModule,
     TokenModule,
     ScopeAttributeModule,
+    PortalModule,
   ],
 })
 export class AppModule {

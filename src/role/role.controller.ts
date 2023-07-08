@@ -18,7 +18,7 @@ import { CreateRoleRequest } from "./requests/create-role.request";
 import { UpdateRoleRequest } from "./requests/update-role.request";
 import { AbstractController } from "../common/abstract.controller";
 
-@ApiTags('roles')
+@ApiTags('Roles')
 @Controller('roles')
 export class RoleController extends AbstractController{
     constructor(private readonly roleService: RoleService) {
